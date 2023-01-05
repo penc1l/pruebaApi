@@ -1,41 +1,20 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+//variables globales
+const dotenv = require('dotenv');
+dotenv.config({path:'./env/.env'});
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//importamos depencidas para su uso
+const express = require('express');
+const app = express();
+const connection = require('./database/BD');
+//------------------------------------------------------------
 
-var app = express();
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
-app.use(logger('dev'));
+//parsear la informacion de las solicitudes
+app.use(express.urlencoded({extended:true}));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//rutas
+app.use(require('./routes/index.route')); 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
-
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
-module.exports = app;
+app.listen(process.env.PORT_CONNECTION ,()=>
+console.log(`servidor levantado en el puerto ` + process.env.PORT_CONNECTION )
+);
