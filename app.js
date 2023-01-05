@@ -1,6 +1,6 @@
 //variables globales
 const dotenv = require('dotenv');
-dotenv.config({path:'./env/.env'});
+dotenv.config();
 
 //importamos depencidas para su uso
 const express = require('express');
@@ -15,6 +15,6 @@ app.use(express.json());
 //rutas
 app.use(require('./routes/index.route')); 
 
-/* app.listen(process.env.PORT_CONNECTION ,()=>
+app.listen(process.env.PORT_CONNECTION ,()=>
 console.log(`servidor levantado en el puerto ` + process.env.PORT_CONNECTION )
-); */
+); 
